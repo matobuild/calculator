@@ -1,5 +1,6 @@
 * {
     border-radius: 10px;
+    font-size: 1.1em;
 }
 body {
     background-color: bisque;
@@ -31,6 +32,24 @@ body {
     display: flex;
     align-content: stretch;   
     flex: 1 1 auto;
+}
+
+.screen {
+    background-color: white;
+    color: black;
+    width:  100%;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+}
+
+.screen--input {
+    justify-content: flex-start;
+}
+
+
+.screen--output {
+    justify-content: flex-end;
 }
 
 .button {

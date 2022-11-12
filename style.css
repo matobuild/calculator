@@ -21,15 +21,20 @@ body {
 .calculater {
     background-color: red;   
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    
 }
 
 .row {
     display: flex;
     align-content: stretch;   
+    flex: 1 1 auto;
 }
 
 .button {
     width: 100%;
     height: 100%;
-    margin: 2px;
+    /* margin: 2px; */
 }

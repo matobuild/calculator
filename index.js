@@ -27,13 +27,15 @@ function operate(a, b, operator) {
   }
 }
 
-
 let displayValue = "0";
 let a = 0;
 let b = 0;
 let chosenOperator = "";
+let result = "";
 
 const screenInput = document.querySelector(".screen--input");
+const screenOutput = document.querySelector(".screen--output");
+
 const button = document.querySelectorAll("button");
 
 button.forEach((button) => {
@@ -53,6 +55,16 @@ button.forEach((button) => {
         if (displayValue == "0") {
           displayValue = button.innerHTML;
         } else {
+          //if displayValue has symbol set it B to button.innerHTML
+          if (
+            displayValue.includes("+") ||
+            displayValue.includes("-") ||
+            displayValue.includes("*") ||
+            displayValue.includes("/")
+          ) {
+            b = button.innerHTML;
+          }
+
           displayValue += button.innerHTML;
         }
         display(displayValue);
@@ -60,7 +72,7 @@ button.forEach((button) => {
 
       case ".":
         // fix later
-        break;      
+        break;
 
       case "CLEAR":
         clear();
@@ -72,19 +84,42 @@ button.forEach((button) => {
         display(displayValue);
         break;
 
-        case "+":
-        case "-":
-        case "*":
-        case "/":
-        a = displayValue;
+      case "+":
+      case "-":
+      case "*":
+      case "/":
+        if (
+          displayValue.includes("+") ||
+          displayValue.includes("-") ||
+          displayValue.includes("*") ||
+          displayValue.includes("/")
+        ) {          
+          a = result;       
+              
+        } else {
+          a = Number(displayValue);
+          b = Number(b);
+          chosenOperator = button.innerHTML;
+        }
+
         displayValue = a + button.innerHTML;
         display(displayValue);
-            
-                
-        
-            //perform operation
         break;
-        case "=":
+
+      case "=":
+        if (displayValue.includes("=")) {
+          break; 
+        }
+
+        displayValue = displayValue + " =";
+        console.log(displayValue);
+        
+    
+        display(displayValue);
+
+        result = operate(a, b, chosenOperator);
+        displayResult(result);
+        console.table(a,chosenOperator,b, result);
 
       default:
         break;
@@ -96,7 +131,13 @@ function display(number) {
   screenInput.innerHTML = number;
 }
 
+function displayResult(result) {
+  screenOutput.innerHTML = result;
+}
+
 function clear() {
   displayValue = 0;
   display(displayValue);
+  result = 0;
+  displayResult(result);
 }

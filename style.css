@@ -21,7 +21,7 @@ body {
 }
 
 .calculater {
-    background-color: red;   
+    background-color: blue;   
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -56,7 +56,6 @@ body {
 .button {
     width: 100%;
     height: 100%;
-    /* margin: 2px; */
 }
 
 .button:hover {

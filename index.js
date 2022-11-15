@@ -53,62 +53,55 @@ button.forEach((button) => {
       case "9":
         if (button.innerHTML == "0" && chosenOperator == "/") {
           alert("You can't divide by 0");
-        
-        } else if (a == 0 && b == 0 &&chosenOperator == "") {
+        } else if (a == 0 && b == 0 && chosenOperator == "") {
           a = button.innerHTML;
           displayBottom(a);
-
-         } else if (a != 0 && b == 0 && chosenOperator == "") {
+        } else if (a != 0 && b == 0 && chosenOperator == "") {
           a = a + button.innerHTML;
-          displayBottom(a);     
-
-         } else if (a != 0 && chosenOperator != "" && result == 0) {
-                if (b == 0) {
-                b = button.innerHTML;
-                displayBottom(b);
-                } else {
-                  b += button.innerHTML;
-                  displayBottom(b);                  
-                }
-
-         } else if (a != 0 && b != 0 && chosenOperator != "" && result != 0) {
+          displayBottom(a);
+        } else if (a != 0 && chosenOperator != "" && result == 0) {
+          if (b == 0) {
+            b = button.innerHTML;
+            displayBottom(b);
+          } else {
+            b += button.innerHTML;
+            displayBottom(b);
+          }
+        } else if (a != 0 && b != 0 && chosenOperator != "" && result != 0) {
           a = result + button.innerHTML;
           displayBottom(a);
           result = 0;
-
-         } else if (a != 0 && b == 0 && chosenOperator != "" && result != 0) {
+        } else if (a != 0 && b == 0 && chosenOperator != "" && result != 0) {
           result = 0;
           b = button.innerHTML;
-          displayBottom(b);        
-         }
+          displayBottom(b);
+        }
 
-         console.table({ a, b, chosenOperator, result });
+        console.table({ a, b, chosenOperator, result });
 
         break;
 
       case ".":
-         numberToAddDecimal = screenBottom.innerHTML;
-         if (numberToAddDecimal.includes(".")) {
-           break;
-         }
+        numberToAddDecimal = screenBottom.innerHTML;
+        if (numberToAddDecimal.includes(".")) {
+          break;
+        }
 
-         switch (numberToAddDecimal) {
-          case a: 
+        switch (numberToAddDecimal) {
+          case a:
             a = a + ".";
             displayBottom(a);
             break;
 
           case b:
-           b = b + ".";
-           displayBottom(b);
-            break;            
+            b = b + ".";
+            displayBottom(b);
+            break;
           default:
             result = String(result) + ".";
             displayBottom(result);
             break;
-       }
-
-
+        }
 
         break;
 
@@ -117,40 +110,38 @@ button.forEach((button) => {
         break;
 
       case "DELETE":
-         numberToBeDelete = screenBottom.innerHTML; 
-         console.log(numberToBeDelete + "is the number to be deleted");
+        numberToBeDelete = screenBottom.innerHTML;
+        console.log(numberToBeDelete + "is the number to be deleted");
 
-         if (numberToBeDelete == 0) {
+        if (numberToBeDelete == 0) {
           clear();
-         } else {
+        } else {
           switch (numberToBeDelete) {
-            case a: 
+            case a:
               a = a.slice(0, -1);
               displayBottom(a);
               break;
 
             case b:
-             b = b.slice(0, -1);
-             displayBottom(b);
-              break;            
+              b = b.slice(0, -1);
+              displayBottom(b);
+              break;
             default:
               result = String(result).slice(0, -1);
               displayBottom(result);
               break;
-         }
+          }
         }
         break;
 
       case "+":
       case "-":
       case "*":
-      case "/":     
-         if (a != 0 && b == 0) {
+      case "/":
+        if (a != 0 && b == 0) {
           a = Number(a);
-          chosenOperator = button.innerHTML;         
-            displayTop(a + chosenOperator);
-          
-          
+          chosenOperator = button.innerHTML;
+          displayTop(a + chosenOperator);
         } else if (a != 0 && b != 0 && result == 0) {
           result = operate(Number(a), Number(b), chosenOperator);
           a = result;
@@ -159,27 +150,25 @@ button.forEach((button) => {
 
           displayTop(a + button.innerHTML);
           displayBottom(a);
-          chosenOperator = button.innerHTML;         
-          console.table({ a, b, chosenOperator, result });         
-
-         } else if (a != 0 && b != 0 && result != 0) {
+          chosenOperator = button.innerHTML;
+          console.table({ a, b, chosenOperator, result });
+        } else if (a != 0 && b != 0 && result != 0) {
           a = Number(result);
           b = 0;
           chosenOperator = button.innerHTML;
-          displayTop(a + chosenOperator);              
-         } 
+          displayTop(a + chosenOperator);
+        }
         console.table({ a, b, chosenOperator, result });
         break;
-        
 
       case "=":
-         if (a != 0 && b != 0) {
+        if (a != 0 && b != 0) {
           displayTop(a + chosenOperator + b + " =");
           result = operate(a, b, chosenOperator);
 
           Number.isInteger(result) ? result : result.toFixed(2);
-          displayBottom(result);          
-         }
+          displayBottom(result);
+        }
 
         console.table({ a, b, chosenOperator, result });
       default:
@@ -187,8 +176,6 @@ button.forEach((button) => {
     }
   });
 });
-
-
 
 function displayTop(number) {
   screenTop.innerHTML = number;
@@ -204,6 +191,6 @@ function clear() {
   chosenOperator = "";
   result = 0;
 
-  displayTop("");
+  displayTop("0");
   displayBottom(result);
 }

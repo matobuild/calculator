@@ -27,14 +27,13 @@ function operate(a, b, operator) {
   }
 }
 
-let displayValue = "0";
 let a = 0;
 let b = 0;
 let chosenOperator = "";
-let result = "";
+let result = 0;
 
-const screenInput = document.querySelector(".screen--input");
-const screenOutput = document.querySelector(".screen--output");
+const screenTop = document.querySelector(".screen--top");
+const screenBottom = document.querySelector(".screen--bottom");
 
 const button = document.querySelectorAll("button");
 
@@ -52,26 +51,65 @@ button.forEach((button) => {
       case "7":
       case "8":
       case "9":
-        if (displayValue == "0") {
-          displayValue = button.innerHTML;
-        } else {
-          //if displayValue has symbol set it B to button.innerHTML
-          if (
-            displayValue.includes("+") ||
-            displayValue.includes("-") ||
-            displayValue.includes("*") ||
-            displayValue.includes("/")
-          ) {
-            b = button.innerHTML;
-          }
+        if (button.innerHTML == "0" && chosenOperator == "/") {
+          alert("You can't divide by 0");
+        
+        } else if (a == 0 && b == 0 &&chosenOperator == "") {
+          a = button.innerHTML;
+          displayBottom(a);
 
-          displayValue += button.innerHTML;
-        }
-        display(displayValue);
+         } else if (a != 0 && b == 0 && chosenOperator == "") {
+          a = a + button.innerHTML;
+          displayBottom(a);     
+
+         } else if (a != 0 && chosenOperator != "" && result == 0) {
+                if (b == 0) {
+                b = button.innerHTML;
+                displayBottom(b);
+                } else {
+                  b += button.innerHTML;
+                  displayBottom(b);                  
+                }
+
+         } else if (a != 0 && b != 0 && chosenOperator != "" && result != 0) {
+          a = result + button.innerHTML;
+          displayBottom(a);
+          result = 0;
+
+         } else if (a != 0 && b == 0 && chosenOperator != "" && result != 0) {
+          result = 0;
+          b = button.innerHTML;
+          displayBottom(b);        
+         }
+
+         console.table({ a, b, chosenOperator, result });
+
         break;
 
       case ".":
-        // fix later
+         numberToAddDecimal = screenBottom.innerHTML;
+         if (numberToAddDecimal.includes(".")) {
+           break;
+         }
+
+         switch (numberToAddDecimal) {
+          case a: 
+            a = a + ".";
+            displayBottom(a);
+            break;
+
+          case b:
+           b = b + ".";
+           displayBottom(b);
+            break;            
+          default:
+            result = String(result) + ".";
+            displayBottom(result);
+            break;
+       }
+
+
+
         break;
 
       case "CLEAR":
@@ -79,65 +117,93 @@ button.forEach((button) => {
         break;
 
       case "DELETE":
-        //delete last number
-        displayValue = displayValue.slice(0, -1);
-        display(displayValue);
+         numberToBeDelete = screenBottom.innerHTML; 
+         console.log(numberToBeDelete + "is the number to be deleted");
+
+         if (numberToBeDelete == 0) {
+          clear();
+         } else {
+          switch (numberToBeDelete) {
+            case a: 
+              a = a.slice(0, -1);
+              displayBottom(a);
+              break;
+
+            case b:
+             b = b.slice(0, -1);
+             displayBottom(b);
+              break;            
+            default:
+              result = String(result).slice(0, -1);
+              displayBottom(result);
+              break;
+         }
+        }
         break;
 
       case "+":
       case "-":
       case "*":
-      case "/":
-        if (
-          displayValue.includes("+") ||
-          displayValue.includes("-") ||
-          displayValue.includes("*") ||
-          displayValue.includes("/")
-        ) {          
-          a = result;       
-              
-        } else {
-          a = Number(displayValue);
-          b = Number(b);
-          chosenOperator = button.innerHTML;
-        }
+      case "/":     
+         if (a != 0 && b == 0) {
+          a = Number(a);
+          chosenOperator = button.innerHTML;         
+            displayTop(a + chosenOperator);
+          
+          
+        } else if (a != 0 && b != 0 && result == 0) {
+          result = operate(Number(a), Number(b), chosenOperator);
+          a = result;
+          b = 0;
+          result = 0;
 
-        displayValue = a + button.innerHTML;
-        display(displayValue);
+          displayTop(a + button.innerHTML);
+          displayBottom(a);
+          chosenOperator = button.innerHTML;         
+          console.table({ a, b, chosenOperator, result });         
+
+         } else if (a != 0 && b != 0 && result != 0) {
+          a = Number(result);
+          b = 0;
+          chosenOperator = button.innerHTML;
+          displayTop(a + chosenOperator);              
+         } 
+        console.table({ a, b, chosenOperator, result });
         break;
+        
 
       case "=":
-        if (displayValue.includes("=")) {
-          break; 
-        }
+         if (a != 0 && b != 0) {
+          displayTop(a + chosenOperator + b + " =");
+          result = operate(a, b, chosenOperator);
 
-        displayValue = displayValue + " =";
-        console.log(displayValue);
-        
-    
-        display(displayValue);
+          Number.isInteger(result) ? result : result.toFixed(2);
+          displayBottom(result);          
+         }
 
-        result = operate(a, b, chosenOperator);
-        displayResult(result);
-        console.table(a,chosenOperator,b, result);
-
+        console.table({ a, b, chosenOperator, result });
       default:
         break;
     }
   });
 });
 
-function display(number) {
-  screenInput.innerHTML = number;
+
+
+function displayTop(number) {
+  screenTop.innerHTML = number;
 }
 
-function displayResult(result) {
-  screenOutput.innerHTML = result;
+function displayBottom(result) {
+  screenBottom.innerHTML = result;
 }
 
 function clear() {
-  displayValue = 0;
-  display(displayValue);
+  a = 0;
+  b = 0;
+  chosenOperator = "";
   result = 0;
-  displayResult(result);
+
+  displayTop("");
+  displayBottom(result);
 }
